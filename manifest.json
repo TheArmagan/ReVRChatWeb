@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "ReVRChat Web",
+  "description": "A redesigned VRChat web experience",
+  "version": "0.1.0",
+  "permissions": [
+    "storage",
+    "cookies",
+    "declarativeNetRequest"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "block_squarespace_css",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "host_permissions": [
+    "https://vrchat.com/*",
+    "https://hello.vrchat.com/*",
+    "https://api.vrchat.cloud/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://vrchat.com/*",
+        "https://hello.vrchat.com/*"
+      ],
+      "js": [
+        "src/content/index.ts"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*"
+      ],
+      "matches": [
+        "https://vrchat.com/*",
+        "https://hello.vrchat.com/*"
+      ]
+    }
+  ]
+}

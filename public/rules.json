@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||static1.squarespace.com/static/versioned-site-css/",
+      "resourceTypes": ["stylesheet"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||vrchat.com/api/1/css/app.css",
+      "resourceTypes": ["stylesheet"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||dtuitjyhwcl5y.cloudfront.net/",
+      "resourceTypes": ["stylesheet"]
+    }
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls src/)",
+      "Bash(dir src/)",
+      "Bash(npx svelte-check *)"
+    ]
+  }
+}
