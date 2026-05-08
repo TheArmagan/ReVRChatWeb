@@ -6,22 +6,39 @@ export type IRoute = {
 export type ICurrentRoute = {
   route: string;
   params: Record<string, string>;
+  query: Record<string, string>;
   component: any;
   data: any;
 };
 
+function matchRoute(pathname: string): { config: IRoute; params: Record<string, string> } | null {
+  for (const [pattern, config] of Object.entries(routes)) {
+    const paramNames: string[] = [];
+    const regexStr = pattern.replace(/:([^/]+)/g, (_, name) => {
+      paramNames.push(name);
+      return '([^/]+)';
+    });
+    const match = pathname.match(new RegExp(`^${regexStr}$`));
+    if (match) {
+      const params = Object.fromEntries(paramNames.map((name, i) => [name, match[i + 1]]));
+      return { config, params };
+    }
+  }
+  return null;
+}
+
 const routes: Record<string, IRoute> = {
   "/": {
-    title: "Home",
+    title: "Landing",
     component: () => import("../pages/Landing.svelte")
   },
-  "/404": {
+  "/not-found": {
     title: "404 - Not Found",
-    component: () => import("../pages/404.svelte")
+    component: () => import("../pages/NotFound.svelte")
   },
   "/home": {
-    title: "404 - Not Found",
-    component: () => import("../pages/Home.svelte")
+    title: "Home",
+    component: () => import("../pages/App.svelte")
   }
 }
 
@@ -29,6 +46,7 @@ const state = $state<{ currentRoute: ICurrentRoute }>({
   currentRoute: {
     route: window.location.host === "vrchat.com" ? "/home" : "/",
     params: {},
+    query: {},
     component: null,
     data: null
   }
@@ -45,21 +63,23 @@ export function buildUrl(route: string, params: Record<string, string> = {}): st
 let isInitialized = false;
 
 const onNavigate = async () => {
-  const route = window.location.pathname;
-  const params = Object.fromEntries(new URLSearchParams(window.location.search).entries());
-  const routeConfig = routes[route];
-  console.log("Navigating to:", route, "with params:", params);
+  const pathname = window.location.pathname;
+  const queryParams = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+  const matched = matchRoute(pathname);
+  console.log("Navigating to:", pathname);
 
-  if (routeConfig) {
-    const componentModule = await routeConfig.component();
+  if (matched) {
+    const componentModule = await matched.config.component();
     state.currentRoute = {
-      route,
-      params,
+      route: pathname,
+      params: matched.params,
+      query: queryParams,
       component: componentModule.default,
       data: null
     };
+    document.body.title = `${matched.config.title} - ReVRChatWeb`;
   } else {
-    navigateTo("/404", { route });
+    navigateTo("/not-found", { route: pathname });
   }
 };
 

@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { navigateTo } from '$lib/core/router.svelte';
+  import { navigateTo } from "$lib/core/router.svelte";
 
   const {
     to,
     children,
-    class: className
+    class: className,
   } = $props<{
-    to: string
-    children?: any
-    class?: string
-  }>()
+    to: string;
+    children?: any;
+    class?: string;
+  }>();
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
@@ -17,6 +17,11 @@
   }
 </script>
 
-<a href={to} data-preload={to} class={className || 'text-blue-500 hover:underline'} onclick={handleClick}>
+<a
+  href={to}
+  data-preload={to}
+  class={className || "text-blue-500 hover:underline"}
+  onclick={handleClick}
+>
   {@render children?.()}
 </a>

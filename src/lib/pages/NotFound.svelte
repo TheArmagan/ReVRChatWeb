@@ -1,6 +1,6 @@
 <script lang="ts">
   import RouterLink from "$lib/components/RouterLink.svelte";
-  import { ICurrentRoute } from "$lib/core/router.svelte.ts";
+  import { ICurrentRoute } from "$lib/core/router.svelte";
 
   const {
     currentRoute,
