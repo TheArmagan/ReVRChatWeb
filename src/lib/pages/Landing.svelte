@@ -61,6 +61,10 @@
           .map(Number);
         eatAt(sx, sy);
       }, 100);
+      gsap.to("[data-vrc-logo]", {
+        opacity: 0,
+        duration: 0.5,
+      });
     }, 300);
   });
 </script>
@@ -98,7 +102,7 @@
 
     <img
       src={vrcLogoAsset}
-      class="absolute left-1/2 top-1/2 -translate-1/2 w-[50%]"
+      class="absolute left-1/2 top-1/2 -translate-1/2 w-[50%] max-w-[50vh]"
       alt="VRChat Logo"
       data-vrc-logo
     />
