@@ -29,16 +29,17 @@ function matchRoute(pathname: string): { config: IRoute; params: Record<string, 
 
 const routes: Record<string, IRoute> = {
   "/": {
-    title: "Landing",
+    title: "Welcome to VRChat!",
     component: () => import("../pages/Landing.svelte")
   },
   "/not-found": {
     title: "404 - Not Found",
     component: () => import("../pages/NotFound.svelte")
   },
+
   "/home": {
     title: "Home",
-    component: () => import("../pages/App.svelte")
+    component: () => import("../pages/Home.svelte")
   }
 }
 
@@ -77,7 +78,7 @@ const onNavigate = async () => {
       component: componentModule.default,
       data: null
     };
-    document.body.title = `${matched.config.title} - ReVRChatWeb`;
+    document.title = `${matched.config.title} - ReVRChatWeb`;
   } else {
     navigateTo("/not-found", { route: pathname });
   }
